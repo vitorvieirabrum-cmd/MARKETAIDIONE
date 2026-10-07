@@ -40,8 +40,8 @@ export const AppShell: React.FC<AppShellProps> = ({ children, currentPage, onNav
           />
         </div>
 
-        {/* Dynamic Page Viewport (with safe bottom padding for iPhone tab bar) */}
-        <main className="flex-1 flex flex-col overflow-y-auto bg-[#06080d] relative pb-16 md:pb-0">
+        {/* Dynamic Page Viewport (with safe bottom padding for iPhone tab bar & home indicator) */}
+        <main className="flex-1 flex flex-col overflow-y-auto bg-[#06080d] relative pb-[calc(4.25rem+env(safe-area-inset-bottom,16px))] md:pb-0">
           {children}
         </main>
       </div>

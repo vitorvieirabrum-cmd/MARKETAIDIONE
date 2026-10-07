@@ -72,13 +72,13 @@ export const MobileNav: React.FC<MobileNavProps> = ({ currentPage, onNavigate })
                 onClick={() => handleSelectPage(tab.id)}
                 className={`min-h-[44px] flex flex-col items-center justify-center relative transition-colors ${
                   isActive
-                    ? 'text-cyan-400 font-semibold'
+                    ? 'text-amber-400 font-semibold'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
                 <Icon
                   className={`w-5 h-5 transition-transform ${
-                    isActive ? 'scale-110 text-cyan-400 stroke-[2.2]' : 'stroke-[1.8]'
+                    isActive ? 'scale-110 text-amber-400 stroke-[2.2]' : 'stroke-[1.8]'
                   }`}
                 />
                 <span className="text-[10px] font-medium tracking-tight mt-0.5">
@@ -86,7 +86,7 @@ export const MobileNav: React.FC<MobileNavProps> = ({ currentPage, onNavigate })
                 </span>
 
                 {isActive && (
-                  <span className="absolute top-1 w-1 h-1 rounded-full bg-cyan-400 shadow-sm shadow-cyan-400" />
+                  <span className="absolute top-1 w-1 h-1 rounded-full bg-amber-400 shadow-sm shadow-amber-400" />
                 )}
               </button>
             );
@@ -118,20 +118,25 @@ export const MobileNav: React.FC<MobileNavProps> = ({ currentPage, onNavigate })
             {/* Sheet Header */}
             <div className="flex items-center justify-between px-5 pb-3 border-b border-slate-800/80">
               <div className="flex items-center gap-2.5">
-                <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 flex items-center justify-center text-slate-950 font-black text-xs font-mono shadow-md">
-                  GT
+                <div className="relative w-8 h-8 rounded-lg overflow-hidden border border-amber-500/40 bg-gradient-to-tr from-amber-600 via-amber-500 to-yellow-300 flex items-center justify-center shadow-md">
+                  <img
+                    src="/src/assets/images/coliseu_trading_emblem_1791394837853.jpg"
+                    alt="Coliseu Trading"
+                    referrerPolicy="no-referrer"
+                    className="w-full h-full object-cover"
+                  />
                 </div>
                 <div>
-                  <h3 className="font-bold text-white text-sm font-display tracking-wide">
-                    GURO DO TRADING
+                  <h3 className="font-bold text-white text-sm font-cinzel tracking-wider">
+                    COLISEU TRADING
                   </h3>
-                  <span className="text-[10px] text-cyan-400 font-mono">Terminal Institucional</span>
+                  <span className="text-[10px] text-amber-400 font-mono">TradingView & Quotex Arena</span>
                 </div>
               </div>
 
               <button
                 onClick={() => setDrawerOpen(false)}
-                className="p-2 text-slate-400 hover:text-white rounded-lg min-h-[44px] min-w-[44px] flex items-center justify-center"
+                className="p-2 text-slate-400 hover:text-white rounded-lg min-h-[44px] min-w-[44px] flex items-center justify-center cursor-pointer"
               >
                 <X className="w-5 h-5" />
               </button>

@@ -1,6 +1,6 @@
 import { AlertCondition, MarketAlert, MarketQuote } from '../types/market';
 
-const STORAGE_KEY = 'marketai_alerts_v1';
+const STORAGE_KEY = 'coliseu_trading_alerts_v1';
 
 export class AlertService {
   private alerts: MarketAlert[] = [];

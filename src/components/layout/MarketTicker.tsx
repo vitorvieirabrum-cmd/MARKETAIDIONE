@@ -5,13 +5,26 @@ import { ArrowUpRight, ArrowDownRight } from 'lucide-react';
 export const MarketTicker: React.FC = () => {
   const { quotes, setSelectedSymbol, lastTickSymbol } = useMarket();
 
-  const tickerSymbols = ['BTCUSD', 'ETHUSD', 'SOLUSD', 'SPX', 'NDX', 'PETR4', 'VALE3', 'NVDA', 'AAPL', 'USDBRL'];
+  const tickerSymbols = [
+    'BTCUSD',
+    'ETHUSD',
+    'EURUSD_OTC',
+    'SOLUSD',
+    'PETR4',
+    'VALE3',
+    'GBPUSD_OTC',
+    'SPX',
+    'NDX',
+    'NVDA',
+    'USDBRL_OTC',
+  ];
   const tickerQuotes = quotes.filter((q) => tickerSymbols.includes(q.symbol));
 
   return (
     <div className="h-7 bg-[#07090e] border-b border-slate-800/60 overflow-hidden flex items-center select-none text-[11px] font-mono-numbers shrink-0">
-      <div className="flex items-center px-3 bg-[#0d1017] border-r border-slate-800/80 shrink-0 h-full font-bold text-slate-400 text-[10px] tracking-wider uppercase font-mono">
-        FEED 24/7
+      <div className="flex items-center px-3 bg-[#0d1017] border-r border-amber-500/20 shrink-0 h-full font-bold text-amber-300 text-[10px] tracking-wider uppercase font-mono gap-1.5">
+        <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse" />
+        COLISEU · TRADINGVIEW & QUOTEX
       </div>
 
       <div className="flex items-center overflow-x-auto no-scrollbar whitespace-nowrap divide-x divide-slate-800/40">

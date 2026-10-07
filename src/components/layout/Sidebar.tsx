@@ -65,16 +65,16 @@ export const Sidebar: React.FC<SidebarProps> = ({
               title={collapsed ? item.label : undefined}
               className={`w-full flex items-center gap-3 px-2.5 py-2 rounded-lg text-xs font-medium transition-all group relative ${
                 isActive
-                  ? 'bg-cyan-500/15 text-cyan-300 font-semibold border border-cyan-500/30 shadow-sm'
+                  ? 'bg-amber-500/15 text-amber-300 font-semibold border border-amber-500/30 shadow-sm shadow-amber-500/10'
                   : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800/60'
               }`}
             >
               <div
                 className={`p-1 rounded shrink-0 transition-colors ${
                   item.highlight
-                    ? 'text-cyan-400 group-hover:text-cyan-300'
+                    ? 'text-amber-400 group-hover:text-amber-300'
                     : isActive
-                    ? 'text-cyan-400'
+                    ? 'text-amber-400'
                     : 'text-slate-400 group-hover:text-slate-200'
                 }`}
               >
@@ -86,7 +86,7 @@ export const Sidebar: React.FC<SidebarProps> = ({
                   <span className="truncate">{item.label}</span>
 
                   {item.badge && (
-                    <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-400 font-mono font-bold border border-cyan-800/50">
+                    <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950/80 text-amber-300 font-mono font-bold border border-amber-700/50">
                       {item.badge}
                     </span>
                   )}

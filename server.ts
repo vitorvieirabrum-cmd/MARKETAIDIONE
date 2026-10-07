@@ -143,7 +143,7 @@ SOLICITAÇÃO DO USUÁRIO / PERGUNTA:
 Modo: ${mode}
 `;
 
-    const systemInstruction = `Você é o "AI Analyst" do Guro do Trading, um terminal financeiro institucional de alta precisão.
+    const systemInstruction = `Você é o "AI Analyst" do Coliseu Trading, uma arena financeira e terminal institucional de alta precisão conectado aos dados TradingView e Quotex Turbo OTC.
 Sua função é fornecer análises técnicas puramente objetivas, baseadas em dados de preços, médias móveis, osciladores de momentum e fluxo de volume.
 
 DIRETRIZES FUNDAMENTAIS:
@@ -233,7 +233,7 @@ app.post('/api/ai/parse-alert', async (req, res) => {
       return res.json(parseAlertHeuristic(prompt));
     }
 
-    const systemInstruction = `Você é um assistente de parsing de alertas financeiros do Guro do Trading.
+    const systemInstruction = `Você é um assistente de parsing de alertas financeiros do Coliseu Trading.
 O usuário vai descrever uma condição em linguagem natural (por exemplo: "Me avise quando Bitcoin ultrapassar 70 mil dólares" ou "Alerte se PETR4 cair abaixo de 35 reais").
 Sua tarefa é extrair e retornar estritamente um JSON no seguinte formato:
 {
@@ -268,7 +268,7 @@ Sua tarefa é extrair e retornar estritamente um JSON no seguinte formato:
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'ok',
-    service: 'Guro do Trading Backend',
+    service: 'Coliseu Trading Backend',
     timestamp: new Date().toISOString(),
     geminiEnabled: !!aiClient,
   });
@@ -292,7 +292,7 @@ async function startServer() {
   }
 
   app.listen(PORT, () => {
-    console.log(`[MarketAI] Server running on http://0.0.0.0:${PORT} (${isProduction ? 'production' : 'development'})`);
+    console.log(`[Coliseu Trading] Server running on http://0.0.0.0:${PORT} (${isProduction ? 'production' : 'development'})`);
   });
 }
 

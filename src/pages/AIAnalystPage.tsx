@@ -21,11 +21,11 @@ export const AIAnalystPage: React.FC<{ onNavigate: (page: string) => void }> = (
       <div className="flex flex-wrap items-center justify-between gap-3 mb-3 sm:mb-4 shrink-0">
         <div>
           <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-display">
-              Guro AI Analyst Terminal
+            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-cinzel">
+              Coliseu AI Analyst Terminal
             </h1>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-gradient-to-r from-cyan-600 to-blue-600 text-white font-mono font-bold">
-              GEMINI PRO BACKEND
+            <span className="text-[10px] px-2 py-0.5 rounded bg-gradient-to-r from-amber-600 to-yellow-500 text-slate-950 font-mono font-bold">
+              ORÁCULO PRO
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">

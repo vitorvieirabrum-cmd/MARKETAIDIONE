@@ -1,6 +1,8 @@
-export type MarketCategory = 'crypto' | 'stocks' | 'indices' | 'forex' | 'b3';
+export type MarketCategory = 'crypto' | 'stocks' | 'indices' | 'forex' | 'b3' | 'otc';
 
-export type Timeframe = '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1D' | '1W' | '1M';
+export type DataSourceReference = 'tradingview' | 'quotex';
+
+export type Timeframe = '5s' | '15s' | '30s' | '1m' | '5m' | '15m' | '30m' | '1h' | '4h' | '1D' | '1W' | '1M';
 
 export interface Asset {
   symbol: string;
@@ -10,6 +12,9 @@ export interface Asset {
   decimals: number;
   description?: string;
   sector?: string;
+  dataSource: DataSourceReference;
+  otc?: boolean;
+  payout?: number; // Quotex payout % e.g. 93
 }
 
 export interface Candle {
@@ -39,6 +44,10 @@ export interface MarketQuote {
   week52Low: number;
   sparkline: number[];
   lastUpdate: number;
+  dataSource: DataSourceReference;
+  otc?: boolean;
+  payout?: number;
+  buyerSentiment?: number; // 0 to 100 (% Call/Buyers)
 }
 
 export interface TechnicalIndicatorsState {
@@ -64,6 +73,7 @@ export interface IndicatorValues {
   macdLine?: number;
   macdSignal?: number;
   macdHist?: number;
+  macd?: { macd: number; signal: number; histogram: number };
 }
 
 export type AlertCondition = 'greater_than' | 'less_than' | 'cross_up' | 'cross_down';

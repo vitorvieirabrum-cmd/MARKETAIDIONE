@@ -142,6 +142,7 @@ export const ScreenerPage: React.FC<{ onNavigate: (page: string) => void }> = ({
               <option value="b3">Brasil (B3)</option>
               <option value="indices">Índices</option>
               <option value="forex">Forex</option>
+              <option value="otc">Quotex OTC (24/7)</option>
             </select>
           </div>
 

@@ -1,6 +1,6 @@
 import { UserProfile } from '../types/market';
 
-const USER_STORAGE_KEY = 'marketai_user_profile_v1';
+const USER_STORAGE_KEY = 'coliseu_trading_user_profile_v1';
 
 export const DEMO_PRO_USER: UserProfile = {
   id: 'usr_pro_institution_01',
@@ -90,7 +90,7 @@ export class AuthService {
     this.currentUser = {
       ...DEMO_PRO_USER,
       plan,
-      name: plan === 'PRO+' ? 'Institutional Trader Pro+' : 'MarketAI Pro Trader',
+      name: plan === 'PRO+' ? 'Imperador Institutional' : 'Gladiador Pro Trader',
     };
     this.saveUser();
     return this.currentUser;
@@ -100,8 +100,8 @@ export class AuthService {
     this.currentUser = {
       ...DEMO_PRO_USER,
       id: 'guest_trader',
-      name: 'Visitante Demo',
-      email: 'guest@marketai.terminal',
+      name: 'Gladiador Visitante',
+      email: 'trader@coliseutrading.com',
       plan: 'FREE',
     };
     this.saveUser();

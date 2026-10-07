@@ -1,6 +1,6 @@
 {
-  "name": "MarketAI - Terminal Financeiro & Análise de Mercados",
-  "description": "Plataforma profissional de análise de mercados financeiros com gráficos interativos, indicadores técnicos, watchlist em tempo real, screeners e inteligência artificial preditiva.",
+  "name": "Coliseu Trading - Terminal Financeiro & Arena de Mercados",
+  "description": "Arena profissional de alta performance para traders com cotações em streaming TradingView e Quotex Turbo OTC, gráficos técnicos avançados e inteligência preditiva.",
   "requestFramePermissions": [],
   "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
 }

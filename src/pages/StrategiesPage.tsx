@@ -50,6 +50,17 @@ export const StrategiesPage: React.FC<{ onNavigate: (page: string) => void }> = 
       description: 'Compras apoiadas no preço médio ponderado por volume durante sessões de alta correlação com o mercado futuro.',
       status: 'Em Teste',
     },
+    {
+      id: 'strat-5',
+      title: 'Rejeição de Nível OTC (Quotex Turbo Timing)',
+      type: 'Price Action & Payout Alto',
+      asset: 'EURUSD_OTC',
+      winRate: '74.2%',
+      profitFactor: '2.62',
+      tradesCount: 210,
+      description: 'Gatilho de reversão em velas rápidas (5s / 1m) quando ocorre exaustão e rejeição de pavio em suporte/resistência OTC com payout de 93%.',
+      status: 'Ativo',
+    },
   ];
 
   return (

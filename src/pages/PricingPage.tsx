@@ -62,14 +62,14 @@ export const PricingPage: React.FC<{ onNavigate: (page: string) => void }> = ({ 
     <div className="p-4 sm:p-8 space-y-8 max-w-[1400px] mx-auto w-full">
       {/* Title */}
       <div className="text-center max-w-2xl mx-auto space-y-2">
-        <span className="text-xs font-mono font-bold text-cyan-400 bg-cyan-950/80 px-2.5 py-1 rounded-full border border-cyan-800">
-          PLANOS & ACESSO INSTITUCIONAL
+        <span className="text-xs font-mono font-bold text-amber-300 bg-amber-950/80 px-3 py-1 rounded-full border border-amber-700/60 uppercase tracking-widest font-cinzel">
+          ARENA COLISEU · NÍVEIS DE ACESSO
         </span>
-        <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-display">
-          Escolha o nível de potência do seu terminal
+        <h1 className="text-2xl sm:text-4xl font-extrabold text-white tracking-tight font-cinzel">
+          Domine a Arena com Potência Institucional
         </h1>
-        <p className="text-xs sm:text-sm text-slate-400">
-          No Guro do Trading, todas as funcionalidades podem ser avaliadas livremente alternando o plano abaixo.
+        <p className="text-xs sm:text-sm text-slate-300">
+          No <strong>Coliseu Trading</strong>, todos os recursos com dados TradingView e Quotex Turbo OTC podem ser testados livremente alternando o plano abaixo.
         </p>
       </div>
 

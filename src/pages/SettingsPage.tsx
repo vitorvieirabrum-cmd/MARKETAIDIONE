@@ -148,7 +148,7 @@ export const SettingsPage: React.FC = () => {
           <span>Aviso Legal & Termo de Isenção de Responsabilidade (Disclaimer)</span>
         </div>
         <p className="text-xs text-slate-300 leading-relaxed">
-          "<strong>Guro do Trading</strong> fornece ferramentas de análise e informação. O conteúdo apresentado não constitui recomendação, consultoria ou oferta de investimento. Mercados financeiros envolvem risco substancial de perda de capital e oscilações abruptas de preço. O desempenho passado verificado em dados históricos ou simulações estatísticas não garante resultados futuros. Sempre consulte um profissional certificado de investimentos antes de tomar decisões financeiras."
+          "<strong>Coliseu Trading</strong> fornece ferramentas de análise técnica com referência aos feeds TradingView e Quotex Turbo OTC. O conteúdo apresentado não constitui recomendação, consultoria ou oferta de investimento. Mercados financeiros envolvem risco substancial de perda de capital e oscilações abruptas de preço. O desempenho passado verificado em dados históricos ou simulações estatísticas não garante resultados futuros. Sempre consulte um profissional certificado de investimentos antes de tomar decisões financeiras."
         </p>
       </div>
     </div>

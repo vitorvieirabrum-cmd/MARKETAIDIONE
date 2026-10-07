@@ -51,9 +51,28 @@ export const AssetDetailsPanel: React.FC = () => {
                 {activeQuote.category}
               </span>
             </div>
-            <p className="text-[10px] text-slate-500 mt-0.5 truncate hidden xs:block">
-              Moeda: {activeQuote.currency} • Feed em Tempo Real Guro do Trading
-            </p>
+            <div className="flex items-center gap-2 mt-0.5 text-[10px] text-slate-400">
+              <span className="hidden xs:inline">Moeda: {activeQuote.currency}</span>
+              <span className="hidden xs:inline text-slate-600">•</span>
+              <span className="flex items-center gap-1.5 font-mono">
+                {activeQuote.dataSource === 'quotex' ? (
+                  <>
+                    <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                    <span className="text-cyan-300 font-semibold">Ref. Motor Quotex OTC</span>
+                    {activeQuote.payout && (
+                      <span className="px-1.5 py-0.2 rounded bg-emerald-500/20 text-emerald-300 font-bold border border-emerald-500/30">
+                        {activeQuote.payout}% Payout
+                      </span>
+                    )}
+                  </>
+                ) : (
+                  <>
+                    <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                    <span className="text-blue-300 font-semibold">Ref. Feed TradingView Pro</span>
+                  </>
+                )}
+              </span>
+            </div>
           </div>
         </div>
 

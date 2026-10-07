@@ -4,24 +4,32 @@
   :root {
     --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
     --font-display: 'Cabinet Grotesk', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    --font-cinzel: 'Cinzel', serif;
     --font-mono: 'JetBrains Mono', monospace;
   }
 
   body {
     font-family: var(--font-sans);
-    background-color: #06080d;
+    background-color: #07080b;
     color: #e2e8f0;
     overflow-x: hidden;
     -webkit-tap-highlight-color: transparent;
     -webkit-touch-callout: none;
   }
 
-  /* Safe areas on modern mobile devices */
+  /* Safe areas on modern mobile devices (iPhone notch & dynamic island & home bar) */
   .pb-safe {
     padding-bottom: env(safe-area-inset-bottom, 16px);
   }
   .pt-safe {
     padding-top: env(safe-area-inset-top, 0px);
+  }
+
+  /* Prevent iOS Safari 16px input auto-zoom */
+  @media screen and (max-width: 768px) {
+    input, select, textarea {
+      font-size: 16px !important;
+    }
   }
 }
 
@@ -81,15 +89,23 @@
   font-family: var(--font-display), var(--font-sans);
 }
 
-/* Institutional glow card */
-.guro-card {
-  background: linear-gradient(180deg, rgba(16, 22, 34, 0.85) 0%, rgba(9, 12, 19, 0.95) 100%);
-  border: 1px solid rgba(255, 255, 255, 0.07);
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.5);
+.font-cinzel {
+  font-family: var(--font-cinzel), serif;
 }
 
-.guro-card:hover {
-  border-color: rgba(6, 182, 212, 0.3);
+/* Coliseu Arena Card: Obsidian base with Roman Gold & Bronze subtle rim */
+.coliseu-card {
+  background: linear-gradient(180deg, rgba(17, 20, 30, 0.9) 0%, rgba(9, 11, 17, 0.98) 100%);
+  border: 1px solid rgba(234, 179, 8, 0.12);
+  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.6);
+}
+
+.coliseu-card:hover {
+  border-color: rgba(234, 179, 8, 0.35);
+}
+
+.coliseu-gold-glow {
+  box-shadow: 0 0 25px -5px rgba(234, 179, 8, 0.25);
 }
 
 /* Subtle grid */

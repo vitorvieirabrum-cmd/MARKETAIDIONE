@@ -29,6 +29,7 @@ export const MarketsPage: React.FC<{ onNavigate: (page: string) => void }> = ({ 
     { id: 'b3', label: 'Brasil (B3)' },
     { id: 'indices', label: 'Índices Globais' },
     { id: 'forex', label: 'Forex & Câmbio' },
+    { id: 'otc', label: 'Quotex OTC (24/7)' },
   ];
 
   // Filtering
@@ -73,7 +74,7 @@ export const MarketsPage: React.FC<{ onNavigate: (page: string) => void }> = ({ 
             </span>
           </div>
           <p className="text-xs text-slate-400 mt-1">
-            Monitor de cotações em tempo real Guro do Trading, liquidez 24h e variações intradiárias.
+            Monitor de cotações em tempo real Coliseu Trading: streaming TradingView e Quotex Turbo OTC 24/7 com payouts e liquidez intradiária.
           </p>
         </div>
 
@@ -181,9 +182,15 @@ export const MarketsPage: React.FC<{ onNavigate: (page: string) => void }> = ({ 
                     <td className="py-3 px-3">
                       <div className="flex items-center gap-2">
                         <span className="font-bold text-white text-xs">{q.symbol}</span>
-                        <span className="text-[10px] px-1 rounded bg-slate-800 text-slate-400 font-mono uppercase">
-                          {q.category}
-                        </span>
+                        {q.dataSource === 'quotex' ? (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 font-mono font-bold border border-cyan-800/60">
+                            Quotex OTC {q.payout ? `+${q.payout}%` : ''}
+                          </span>
+                        ) : (
+                          <span className="text-[10px] px-1 rounded bg-slate-800 text-slate-400 font-mono uppercase">
+                            {q.category}
+                          </span>
+                        )}
                         <span className="text-slate-400 truncate max-w-[140px] hidden sm:inline">
                           {q.name}
                         </span>

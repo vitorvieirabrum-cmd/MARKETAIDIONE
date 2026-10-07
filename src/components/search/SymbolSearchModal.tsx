@@ -82,7 +82,7 @@ export const SymbolSearchModal: React.FC = () => {
         </div>
 
         {/* Category Tabs */}
-        <div className="flex items-center gap-1.5 px-4 py-2 border-b border-slate-800/80 bg-[#0b0e14] overflow-x-auto text-xs">
+        <div className="flex items-center gap-1.5 px-4 py-2 border-b border-slate-800/80 bg-[#0b0e14] overflow-x-auto no-scrollbar text-xs">
           {[
             { id: 'all', label: 'Todos os Mercados' },
             { id: 'crypto', label: 'Cripto' },
@@ -90,6 +90,7 @@ export const SymbolSearchModal: React.FC = () => {
             { id: 'b3', label: 'Brasil (B3)' },
             { id: 'indices', label: 'Índices' },
             { id: 'forex', label: 'Forex' },
+            { id: 'otc', label: 'Quotex OTC (24/7)' },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -146,9 +147,15 @@ export const SymbolSearchModal: React.FC = () => {
                         <span className="font-bold text-white text-sm font-mono-numbers">
                           {item.symbol}
                         </span>
-                        <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono uppercase">
-                          {item.category}
-                        </span>
+                        {item.dataSource === 'quotex' ? (
+                          <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 font-mono font-bold border border-cyan-800/60">
+                            Quotex OTC {item.payout ? `+${item.payout}%` : ''}
+                          </span>
+                        ) : (
+                          <span className="text-[10px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 font-mono uppercase">
+                            {item.category}
+                          </span>
+                        )}
                         <span className="text-xs text-slate-400">
                           {item.name}
                         </span>

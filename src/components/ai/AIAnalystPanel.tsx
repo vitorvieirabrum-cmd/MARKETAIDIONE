@@ -31,14 +31,15 @@ export const AIAnalystPanel: React.FC<{ compact?: boolean }> = ({ compact = fals
     {
       id: 'msg-welcome',
       sender: 'ai',
-      text: `Olá! Sou o **Guro Trading Copilot**, analista quantitativo alimentado por Gemini.
+      text: `Salve, trader! Sou o **Oráculo Coliseu Trading**, analista quantitativo integrado aos motores **TradingView** e **Quotex**.
 
 Estou monitorando **${activeQuote.symbol}** (${activeQuote.name}) no timeframe **${timeframe}**.
-Preço atual: **${activeQuote.price.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}** (${activeQuote.change24h >= 0 ? '+' : ''}${activeQuote.change24h}%).
+Preço atual: **${activeQuote.price.toLocaleString('pt-BR', { minimumFractionDigits: activeQuote.price < 5 ? 4 : 2 })}** (${activeQuote.change24h >= 0 ? '+' : ''}${activeQuote.change24h}%).
+Motor de Dados: **${activeQuote.dataSource === 'quotex' ? 'Quotex Turbo OTC (24/7)' : 'TradingView Pro Feed'}**.
 
-Como posso auxiliar na sua análise técnica hoje?`,
+Como posso auxiliar na sua estratégia de mercado hoje?`,
       timestamp: Date.now(),
-      source: 'Guro Trading Engine',
+      source: 'Coliseu Trading Engine',
     },
   ]);
 

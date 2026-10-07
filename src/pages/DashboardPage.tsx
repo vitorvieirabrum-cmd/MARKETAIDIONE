@@ -37,37 +37,63 @@ export const DashboardPage: React.FC<{ onNavigate: (page: string) => void }> = (
 
   return (
     <div className="p-4 sm:p-6 space-y-6 max-w-[1600px] mx-auto w-full">
-      {/* Welcome & Title Header */}
-      <div className="flex flex-wrap items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2">
-            <h1 className="text-xl sm:text-2xl font-extrabold text-white tracking-tight font-display">
-              Visão Geral do Mercado
-            </h1>
-            <span className="text-[10px] px-2 py-0.5 rounded bg-cyan-950 text-cyan-300 font-mono font-bold border border-cyan-800">
-              TEMPO REAL
-            </span>
-          </div>
-          <p className="text-xs text-slate-400 mt-1">
-            Terminal institucional Guro do Trading: cotações em streaming, osciladores e inteligência preditiva.
-          </p>
+      {/* Coliseu Arena Hero Banner */}
+      <div className="relative rounded-2xl overflow-hidden border border-amber-500/30 bg-[#0c0e16] shadow-xl shadow-amber-950/20">
+        <div className="absolute inset-0">
+          <img
+            src="/src/assets/images/coliseu_arena_banner_1791394846956.jpg"
+            alt="Coliseu Trading Arena"
+            referrerPolicy="no-referrer"
+            className="w-full h-full object-cover opacity-35 object-center"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-[#07080b] via-[#07080b]/85 to-transparent" />
         </div>
 
-        <div className="flex items-center gap-2 sm:gap-2.5 w-full sm:w-auto">
-          <button
-            onClick={() => onNavigate('chart')}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl shadow-md shadow-cyan-500/10 transition-all min-h-[44px] cursor-pointer"
-          >
-            <BarChart3 className="w-4 h-4" />
-            <span>Abrir Gráficos</span>
-          </button>
-          <button
-            onClick={() => onNavigate('ai')}
-            className="flex-1 sm:flex-initial flex items-center justify-center gap-1.5 px-3.5 py-2 bg-[#10141f] hover:bg-slate-800 text-slate-200 border border-slate-700/80 text-xs rounded-xl transition-all min-h-[44px] cursor-pointer"
-          >
-            <Sparkles className="w-4 h-4 text-cyan-400" />
-            <span>IA Analyst</span>
-          </button>
+        <div className="relative p-5 sm:p-7 z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+          <div className="max-w-2xl space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="text-[10px] px-2.5 py-0.5 rounded-full bg-amber-500/20 text-amber-300 font-mono font-bold border border-amber-500/40 tracking-wider uppercase">
+                ARENA DOS TRADERS
+              </span>
+              <span className="text-[10px] text-slate-400 font-mono">
+                DUAL FEED: TRADINGVIEW & QUOTEX
+              </span>
+            </div>
+            <h1 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight font-cinzel">
+              COLISEU <span className="text-amber-400">TRADING</span>
+            </h1>
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed font-sans">
+              Terminal de alta performance sincronizado com os motores de dados globais <strong>TradingView</strong> e motor turbo <strong>Quotex OTC (24/7)</strong> com gráficos de alta frequência, timers de vela e inteligência preditiva.
+            </p>
+
+            <div className="flex flex-wrap items-center gap-3 pt-1 text-xs font-mono">
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-950/40 border border-blue-800/40 text-blue-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                <span>Ref: TradingView Pro</span>
+              </div>
+              <div className="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-amber-950/40 border border-amber-800/40 text-amber-300">
+                <span className="w-1.5 h-1.5 rounded-full bg-amber-400 animate-pulse" />
+                <span>Ref: Quotex OTC (Payout até 95%)</span>
+              </div>
+            </div>
+          </div>
+
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5 shrink-0">
+            <button
+              onClick={() => onNavigate('chart')}
+              className="flex items-center justify-center gap-2 px-5 py-3 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-bold text-xs rounded-xl shadow-lg shadow-amber-500/20 transition-all min-h-[44px] cursor-pointer"
+            >
+              <BarChart3 className="w-4 h-4" />
+              <span>Entrar na Arena Gráfica</span>
+            </button>
+            <button
+              onClick={() => onNavigate('ai')}
+              className="flex items-center justify-center gap-2 px-4 py-3 bg-[#111420]/90 hover:bg-slate-800 text-slate-200 border border-amber-500/30 text-xs rounded-xl transition-all min-h-[44px] cursor-pointer"
+            >
+              <Sparkles className="w-4 h-4 text-amber-400" />
+              <span>Oráculo IA Analyst</span>
+            </button>
+          </div>
         </div>
       </div>
 
@@ -149,7 +175,7 @@ export const DashboardPage: React.FC<{ onNavigate: (page: string) => void }> = (
             </div>
 
             {/* Filter Tabs */}
-            <div className="flex items-center gap-1 bg-[#090c12] p-1 rounded-lg border border-slate-800 text-xs">
+            <div className="flex items-center gap-1 bg-[#090c12] p-1 rounded-lg border border-slate-800 text-xs overflow-x-auto no-scrollbar">
               {[
                 { id: 'all', label: 'Todos' },
                 { id: 'crypto', label: 'Cripto' },
@@ -157,11 +183,12 @@ export const DashboardPage: React.FC<{ onNavigate: (page: string) => void }> = (
                 { id: 'b3', label: 'Brasil' },
                 { id: 'indices', label: 'Índices' },
                 { id: 'forex', label: 'Forex' },
+                { id: 'otc', label: 'Quotex OTC (24/7)' },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveMarketTab(tab.id)}
-                  className={`px-2.5 py-1 rounded transition-colors ${
+                  className={`px-2.5 py-1 rounded transition-colors whitespace-nowrap ${
                     activeMarketTab === tab.id
                       ? 'bg-cyan-500/20 text-cyan-300 font-medium'
                       : 'text-slate-400 hover:text-slate-200'
@@ -206,6 +233,15 @@ export const DashboardPage: React.FC<{ onNavigate: (page: string) => void }> = (
                       <td className="py-3 px-4">
                         <div className="flex items-center gap-2">
                           <span className="font-bold text-white font-mono">{q.symbol}</span>
+                          {q.dataSource === 'quotex' ? (
+                            <span className="text-[9px] px-1.5 py-0.2 rounded bg-cyan-950 text-cyan-300 font-mono font-bold border border-cyan-800/60">
+                              Quotex OTC {q.payout ? `+${q.payout}%` : ''}
+                            </span>
+                          ) : (
+                            <span className="text-[9px] px-1 rounded bg-slate-800 text-slate-400 font-mono uppercase">
+                              {q.category}
+                            </span>
+                          )}
                           <span className="text-slate-400 truncate max-w-[130px] hidden sm:inline">
                             {q.name}
                           </span>
@@ -266,22 +302,22 @@ export const DashboardPage: React.FC<{ onNavigate: (page: string) => void }> = (
 
         {/* Right Col: AI Market Sentiment & Algorithmic Summary */}
         <div className="space-y-6">
-          {/* AI Terminal Bias Card */}
-          <div className="bg-[#0e121a] border border-slate-800/80 rounded-xl p-4 flex flex-col justify-between">
+          {/* Coliseu AI Terminal Bias Card */}
+          <div className="bg-[#0e121a] border border-amber-500/20 rounded-xl p-4 flex flex-col justify-between">
             <div>
               <div className="flex items-center justify-between mb-3">
                 <div className="flex items-center gap-2">
-                  <div className="p-1.5 rounded-lg bg-gradient-to-tr from-cyan-500 to-blue-600 text-white">
+                  <div className="p-1.5 rounded-lg bg-gradient-to-tr from-amber-500 to-yellow-400 text-slate-950 font-black">
                     <Sparkles className="w-4 h-4" />
                   </div>
                   <div>
-                    <h3 className="font-bold text-white text-xs tracking-wider uppercase font-display">
-                      Guro Trading Bias & Sentimento
+                    <h3 className="font-bold text-white text-xs tracking-wider uppercase font-cinzel">
+                      Coliseu Bias & Sentimento
                     </h3>
-                    <span className="text-[10px] text-slate-400 font-mono">Índice Técnico Agregado</span>
+                    <span className="text-[10px] text-amber-400 font-mono">Índice Técnico TV & Quotex</span>
                   </div>
                 </div>
-                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold">
+                <span className="text-[10px] px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-300 font-mono font-bold border border-emerald-500/30">
                   BULLISH (68%)
                 </span>
               </div>
@@ -308,10 +344,10 @@ export const DashboardPage: React.FC<{ onNavigate: (page: string) => void }> = (
 
             <button
               onClick={() => onNavigate('ai')}
-              className="mt-4 w-full py-2.5 bg-cyan-500 hover:bg-cyan-400 text-slate-950 font-bold text-xs rounded-xl transition-all shadow-md shadow-cyan-500/10 flex items-center justify-center gap-1.5 min-h-[44px] cursor-pointer"
+              className="mt-4 w-full py-2.5 bg-gradient-to-r from-amber-500 to-yellow-400 hover:from-amber-400 hover:to-yellow-300 text-slate-950 font-bold text-xs rounded-xl transition-all shadow-md shadow-amber-500/20 flex items-center justify-center gap-1.5 min-h-[44px] cursor-pointer"
             >
               <Sparkles className="w-4 h-4" />
-              <span>Abrir Chat com IA Analyst</span>
+              <span>Consultar Oráculo Coliseu</span>
             </button>
           </div>
 

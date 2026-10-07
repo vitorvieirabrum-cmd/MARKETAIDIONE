@@ -62,6 +62,14 @@ const INDICATORS_LIST: IndicatorItem[] = [
     formula: '∑(Preço Típico * Vol) / ∑(Vol)',
   },
   {
+    id: 'macd',
+    name: 'MACD (12, 26, 9)',
+    category: 'Osciladores',
+    color: '#3b82f6',
+    description: 'Convergência e Divergência de Médias Móveis para identificar reversões de momentum.',
+    formula: 'EMA(12) - EMA(26) com linha de Sinal EMA(9)',
+  },
+  {
     id: 'volume',
     name: 'Volume Financeiro Histograma',
     category: 'Volume',

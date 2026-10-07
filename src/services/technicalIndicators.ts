@@ -165,6 +165,86 @@ export function calculateVWAP(data: Candle[]): { time: any; value: number }[] {
 }
 
 /**
+ * Calculates MACD (Moving Average Convergence Divergence)
+ */
+export function calculateMACD(
+  data: Candle[],
+  fastPeriod: number = 12,
+  slowPeriod: number = 26,
+  signalPeriod: number = 9
+): {
+  macd: { time: any; value: number }[];
+  signal: { time: any; value: number }[];
+  histogram: { time: any; value: number }[];
+} {
+  const macd: { time: any; value: number }[] = [];
+  const signal: { time: any; value: number }[] = [];
+  const histogram: { time: any; value: number }[] = [];
+
+  if (data.length < slowPeriod) return { macd, signal, histogram };
+
+  const fastEma = calculateEMA(data, fastPeriod);
+  const slowEma = calculateEMA(data, slowPeriod);
+
+  // Map slow EMA times to calculate difference
+  const fastMap = new Map(fastEma.map((f) => [f.time, f.value]));
+
+  const rawMacdPoints: Candle[] = [];
+  for (const s of slowEma) {
+    const fVal = fastMap.get(s.time);
+    if (fVal !== undefined) {
+      const macdVal = Number((fVal - s.value).toFixed(4));
+      macd.push({ time: s.time, value: macdVal });
+      rawMacdPoints.push({ time: s.time, close: macdVal, open: macdVal, high: macdVal, low: macdVal, volume: 0 });
+    }
+  }
+
+  // Signal line is EMA of MACD
+  if (rawMacdPoints.length >= signalPeriod) {
+    const rawSignal = calculateEMA(rawMacdPoints, signalPeriod);
+    const signalMap = new Map(rawSignal.map((sg) => [sg.time, sg.value]));
+
+    for (const m of macd) {
+      const sVal = signalMap.get(m.time);
+      if (sVal !== undefined) {
+        signal.push({ time: m.time, value: sVal });
+        histogram.push({ time: m.time, value: Number((m.value - sVal).toFixed(4)) });
+      }
+    }
+  }
+
+  return { macd, signal, histogram };
+}
+
+/**
+ * Calculates Average True Range (ATR)
+ */
+export function calculateATR(data: Candle[], period: number = 14): { time: any; value: number }[] {
+  const result: { time: any; value: number }[] = [];
+  if (data.length <= period) return result;
+
+  const trueRanges: number[] = [];
+  for (let i = 1; i < data.length; i++) {
+    const tr = Math.max(
+      data[i].high - data[i].low,
+      Math.abs(data[i].high - data[i - 1].close),
+      Math.abs(data[i].low - data[i - 1].close)
+    );
+    trueRanges.push(tr);
+  }
+
+  let atr = trueRanges.slice(0, period).reduce((a, b) => a + b, 0) / period;
+  result.push({ time: data[period].time, value: Number(atr.toFixed(4)) });
+
+  for (let i = period; i < trueRanges.length; i++) {
+    atr = (atr * (period - 1) + trueRanges[i]) / period;
+    result.push({ time: data[i + 1].time, value: Number(atr.toFixed(4)) });
+  }
+
+  return result;
+}
+
+/**
  * Extracts latest scalar indicator values for AI and summary badges
  */
 export function getLatestIndicatorValues(candles: Candle[]): IndicatorValues {
@@ -176,6 +256,11 @@ export function getLatestIndicatorValues(candles: Candle[]): IndicatorValues {
   const rsiSeries = calculateRSI(candles, 14);
   const bbSeries = calculateBollingerBands(candles, 20, 2);
   const vwapSeries = calculateVWAP(candles);
+  const macdData = calculateMACD(candles);
+
+  const lastMacd = macdData.macd.length ? macdData.macd[macdData.macd.length - 1].value : undefined;
+  const lastSignal = macdData.signal.length ? macdData.signal[macdData.signal.length - 1].value : undefined;
+  const lastHist = macdData.histogram.length ? macdData.histogram[macdData.histogram.length - 1].value : undefined;
 
   return {
     ema9: ema9Series.length ? ema9Series[ema9Series.length - 1].value : undefined,
@@ -186,5 +271,6 @@ export function getLatestIndicatorValues(candles: Candle[]): IndicatorValues {
     bollingerMiddle: bbSeries.middle.length ? bbSeries.middle[bbSeries.middle.length - 1].value : undefined,
     bollingerLower: bbSeries.lower.length ? bbSeries.lower[bbSeries.lower.length - 1].value : undefined,
     vwap: vwapSeries.length ? vwapSeries[vwapSeries.length - 1].value : undefined,
+    macd: lastMacd !== undefined && lastSignal !== undefined ? { macd: lastMacd, signal: lastSignal, histogram: lastHist || 0 } : undefined,
   };
 }

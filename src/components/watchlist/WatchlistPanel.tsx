@@ -51,18 +51,18 @@ export const WatchlistPanel: React.FC<{ onClose?: () => void }> = ({ onClose }) 
       </div>
 
       {/* Filter Tabs */}
-      <div className="flex items-center gap-1 px-2 py-1.5 border-b border-slate-800/60 bg-[#0b0e14] overflow-x-auto text-[11px]">
-        {['all', 'crypto', 'stocks', 'b3', 'forex'].map((cat) => (
+      <div className="flex items-center gap-1 px-2 py-1.5 border-b border-slate-800/60 bg-[#0b0e14] overflow-x-auto no-scrollbar text-[11px]">
+        {['all', 'crypto', 'stocks', 'b3', 'forex', 'otc'].map((cat) => (
           <button
             key={cat}
             onClick={() => setFilterCategory(cat)}
-            className={`px-2 py-0.5 rounded capitalize whitespace-nowrap transition-colors ${
+            className={`px-2 py-0.5 rounded whitespace-nowrap transition-colors ${
               filterCategory === cat
-                ? 'bg-slate-800 text-white font-medium border border-slate-700'
+                ? 'bg-amber-500/20 text-amber-300 font-medium border border-amber-500/40'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            {cat === 'all' ? 'Todos' : cat === 'b3' ? 'Brasil' : cat}
+            {cat === 'all' ? 'Todos' : cat === 'b3' ? 'Brasil' : cat === 'otc' ? 'Quotex OTC' : cat.toUpperCase()}
           </button>
         ))}
       </div>
@@ -102,9 +102,15 @@ export const WatchlistPanel: React.FC<{ onClose?: () => void }> = ({ onClose }) 
                     <span className="font-bold text-xs text-white tracking-wide font-mono-numbers">
                       {item.symbol}
                     </span>
-                    <span className="text-[9px] px-1 rounded bg-slate-800 text-slate-400 uppercase font-mono">
-                      {item.category}
-                    </span>
+                    {item.dataSource === 'quotex' ? (
+                      <span className="text-[9px] px-1 rounded bg-amber-950 text-amber-300 font-mono font-bold">
+                        {item.payout ? `${item.payout}%` : 'OTC'}
+                      </span>
+                    ) : (
+                      <span className="text-[9px] px-1 rounded bg-slate-800 text-slate-400 uppercase font-mono">
+                        {item.category}
+                      </span>
+                    )}
                   </div>
                   <p className="text-[11px] text-slate-400 truncate max-w-[110px] mt-0.5">
                     {item.name}

@@ -53,18 +53,24 @@ export const WatchlistPage: React.FC<{ onNavigate: (page: string) => void }> = (
       </div>
 
       {/* Tabs */}
-      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 text-xs">
-        {['all', 'crypto', 'stocks', 'b3', 'indices', 'forex'].map((cat) => (
+      <div className="flex items-center gap-2 border-b border-slate-800 pb-2 text-xs overflow-x-auto no-scrollbar">
+        {['all', 'crypto', 'stocks', 'b3', 'indices', 'forex', 'otc'].map((cat) => (
           <button
             key={cat}
             onClick={() => setActiveCategory(cat)}
-            className={`px-3 py-1.5 rounded-lg capitalize font-medium transition-colors ${
+            className={`px-3 py-1.5 rounded-lg font-medium transition-colors whitespace-nowrap ${
               activeCategory === cat
-                ? 'bg-slate-800 text-white border border-slate-700'
+                ? 'bg-amber-500/20 text-amber-300 border border-amber-500/40'
                 : 'text-slate-400 hover:text-slate-200'
             }`}
           >
-            {cat === 'all' ? 'Todos os Favoritos' : cat === 'b3' ? 'Brasil (B3)' : cat}
+            {cat === 'all'
+              ? 'Todos os Favoritos'
+              : cat === 'b3'
+              ? 'Brasil (B3)'
+              : cat === 'otc'
+              ? 'Quotex OTC (24/7)'
+              : cat.toUpperCase()}
           </button>
         ))}
       </div>
@@ -102,9 +108,15 @@ export const WatchlistPage: React.FC<{ onNavigate: (page: string) => void }> = (
                   <div>
                     <div className="flex items-center gap-1.5">
                       <span className="font-extrabold text-sm text-white font-mono">{q.symbol}</span>
-                      <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-slate-400 uppercase font-mono">
-                        {q.category}
-                      </span>
+                      {q.dataSource === 'quotex' ? (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-amber-950 text-amber-300 font-mono font-bold border border-amber-800/60">
+                          Quotex {q.payout ? `+${q.payout}%` : 'OTC'}
+                        </span>
+                      ) : (
+                        <span className="text-[9px] px-1.5 py-0.5 rounded bg-slate-800 text-slate-400 uppercase font-mono">
+                          {q.category}
+                        </span>
+                      )}
                     </div>
                     <p className="text-xs text-slate-400 truncate mt-0.5 max-w-[160px]">{q.name}</p>
                   </div>

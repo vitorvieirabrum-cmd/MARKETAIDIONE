@@ -9,8 +9,8 @@ import {
   IChartApi,
 } from 'lightweight-charts';
 import { useMarket } from '../../context/MarketContext';
-import { calculateBollingerBands, calculateEMA, calculateSMA, calculateVWAP } from '../../services/technicalIndicators';
-import { Maximize2, Minimize2, RefreshCw, SlidersHorizontal, Eye } from 'lucide-react';
+import { calculateBollingerBands, calculateEMA, calculateSMA, calculateVWAP, calculateMACD } from '../../services/technicalIndicators';
+import { Maximize2, Minimize2, RefreshCw, SlidersHorizontal, Clock, Zap, Shield, TrendingUp, TrendingDown } from 'lucide-react';
 import { Timeframe } from '../../types/market';
 
 export const TradingChart: React.FC = () => {
@@ -28,9 +28,29 @@ export const TradingChart: React.FC = () => {
 
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [hoveredCandle, setHoveredCandle] = useState<any>(null);
+  const [secondsRemaining, setSecondsRemaining] = useState<number>(37);
 
-  // Timeframe buttons list
-  const timeframes: Timeframe[] = ['1m', '5m', '15m', '30m', '1h', '4h', '1D', '1W', '1M'];
+  // Timeframe buttons list (includes fast Quotex turbo & TradingView classic)
+  const timeframes: Timeframe[] = ['5s', '15s', '30s', '1m', '5m', '15m', '30m', '1h', '4h', '1D', '1W'];
+
+  // Quotex Candle Countdown Timer effect
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setSecondsRemaining((prev) => (prev <= 1 ? 59 : prev - 1));
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  // Formatted countdown string (e.g. 00:37)
+  const formattedCountdown = useMemo(() => {
+    const m = Math.floor(secondsRemaining / 60);
+    const s = secondsRemaining % 60;
+    return `${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+  }, [secondsRemaining]);
+
+  // Sentiment percentages for Quotex / TradingView Crowd Gauge
+  const buyerSentiment = activeQuote.buyerSentiment ?? 64;
+  const sellerSentiment = 100 - buyerSentiment;
 
   // Latest candle for default OHLC display
   const latestCandle = candles[candles.length - 1];
@@ -113,7 +133,7 @@ export const TradingChart: React.FC = () => {
       timeScale: {
         borderColor: '#1e293b',
         timeVisible: true,
-        secondsVisible: false,
+        secondsVisible: timeframe === '5s' || timeframe === '15s' || timeframe === '30s',
       },
       handleScroll: {
         mouseWheel: true,
@@ -235,6 +255,19 @@ export const TradingChart: React.FC = () => {
       vwapSeries.setData(calculateVWAP(candles));
     }
 
+    // MACD overlay (Fast line)
+    if (indicators.macd) {
+      const macdData = calculateMACD(candles);
+      if (macdData.macd.length > 0) {
+        const macdSeries = chart.addSeries(LineSeries, {
+          color: '#3b82f6',
+          lineWidth: 1,
+          title: 'MACD',
+        });
+        macdSeries.setData(macdData.macd);
+      }
+    }
+
     // Crosshair move listener for interactive OHLC
     chart.subscribeCrosshairMove((param) => {
       if (
@@ -271,7 +304,7 @@ export const TradingChart: React.FC = () => {
       resizeObserver.disconnect();
       chart.remove();
     };
-  }, [candles, indicators]);
+  }, [candles, indicators, timeframe]);
 
   // Fit content helper
   const handleResetZoom = () => {
@@ -279,36 +312,49 @@ export const TradingChart: React.FC = () => {
   };
 
   return (
-    <div className="flex flex-col h-full w-full bg-[#090c12] border border-slate-800/80 rounded-lg overflow-hidden select-none">
-      {/* Top Chart Toolbar */}
+    <div className="flex flex-col h-full w-full bg-[#090c12] border border-slate-800/80 rounded-xl overflow-hidden select-none shadow-2xl">
+      {/* Top Chart Toolbar: Timeframes, Reference Engine Badges & Controls */}
       <div className="flex items-center justify-between px-2 sm:px-3 py-1.5 sm:py-2 border-b border-slate-800/80 bg-[#0c1017] gap-2 overflow-x-auto no-scrollbar">
-        {/* Asset Header Info */}
+        {/* Asset Header Info & Engine Reference Badge */}
         <div className="flex items-center gap-2 sm:gap-3 shrink-0">
           <div>
             <div className="flex items-center gap-1.5 sm:gap-2">
-              <span className="font-bold text-white tracking-wide text-xs sm:text-sm font-mono-numbers">
+              <span className="font-extrabold text-white tracking-wide text-xs sm:text-sm font-mono-numbers">
                 {activeQuote.symbol}
               </span>
               <span className="text-[11px] text-slate-400 font-normal hidden xs:inline">
                 {activeQuote.name}
               </span>
-              <span className="text-[9px] px-1.5 py-0.2 rounded bg-slate-800 text-cyan-400 font-semibold uppercase tracking-wider">
-                {activeQuote.category}
-              </span>
+
+              {/* Data Engine Reference Badge: TradingView or Quotex */}
+              {activeQuote.dataSource === 'quotex' ? (
+                <span className="flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded-full bg-cyan-950/80 text-cyan-300 font-mono font-bold border border-cyan-800/60 shadow-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-cyan-400 animate-pulse" />
+                  QUOTEX OTC
+                  {activeQuote.payout && (
+                    <span className="text-emerald-400 font-bold ml-0.5">+{activeQuote.payout}%</span>
+                  )}
+                </span>
+              ) : (
+                <span className="flex items-center gap-1 text-[9px] px-1.5 py-0.5 rounded-full bg-blue-950/80 text-blue-300 font-mono font-bold border border-blue-800/60 shadow-xs">
+                  <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                  TRADINGVIEW
+                </span>
+              )}
             </div>
           </div>
 
           <div className="h-4 w-[1px] bg-slate-800 hidden sm:block" />
 
-          {/* Timeframe selector pills */}
+          {/* Timeframe selector pills (Quotex Turbo 5s-30s + TradingView 1m-1W) */}
           <div className="flex items-center bg-[#06080d] p-0.5 rounded-lg border border-slate-800/80 overflow-x-auto no-scrollbar">
             {timeframes.map((tf) => (
               <button
                 key={tf}
                 onClick={() => setTimeframe(tf)}
-                className={`px-2 py-1 text-[11px] sm:text-xs font-mono font-medium rounded-md transition-all shrink-0 cursor-pointer min-h-[30px] flex items-center justify-center ${
+                className={`px-2 py-1 text-[11px] font-mono font-medium rounded-md transition-all shrink-0 cursor-pointer min-h-[30px] flex items-center justify-center ${
                   timeframe === tf
-                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs'
+                    ? 'bg-cyan-500/20 text-cyan-300 border border-cyan-500/40 shadow-xs font-bold'
                     : 'text-slate-400 hover:text-slate-200'
                 }`}
               >
@@ -318,15 +364,23 @@ export const TradingChart: React.FC = () => {
           </div>
         </div>
 
-        {/* Action Controls & Indicators */}
-        <div className="flex items-center gap-1 shrink-0">
+        {/* Right Action Controls: Candle Countdown, Sentiment Bar, Indicators & Zoom */}
+        <div className="flex items-center gap-1.5 shrink-0">
+          {/* Candle Expiry Countdown Timer (Quotex style) */}
+          <div className="hidden xs:flex items-center gap-1.5 px-2 py-1 rounded-lg bg-[#0e131d] border border-slate-800 text-[11px] font-mono text-slate-300 min-h-[32px]">
+            <Clock className="w-3.5 h-3.5 text-cyan-400" />
+            <span className="text-slate-400 text-[10px]">Expira em:</span>
+            <span className="font-bold text-white tracking-wider">{formattedCountdown}</span>
+          </div>
+
+          {/* Indicators Modal Trigger */}
           <button
             onClick={() => setIndicatorsModalOpen(true)}
-            className="flex items-center gap-1 px-2 sm:px-2.5 py-1 text-xs font-medium text-slate-300 bg-slate-800/80 hover:bg-slate-700/80 rounded-lg border border-slate-700/60 transition-colors min-h-[32px] cursor-pointer"
+            className="flex items-center gap-1 px-2.5 py-1 text-xs font-medium text-slate-300 bg-slate-800/80 hover:bg-slate-700/80 rounded-lg border border-slate-700/60 transition-colors min-h-[32px] cursor-pointer"
           >
             <SlidersHorizontal className="w-3.5 h-3.5 text-cyan-400" />
-            <span className="hidden xs:inline">Indicadores</span>
-            {indicators.ema9 || indicators.rsi14 ? (
+            <span className="hidden sm:inline">Indicadores</span>
+            {indicators.ema9 || indicators.rsi14 || indicators.macd ? (
               <span className="w-1.5 h-1.5 rounded-full bg-cyan-400" />
             ) : null}
           </button>
@@ -349,7 +403,7 @@ export const TradingChart: React.FC = () => {
         </div>
       </div>
 
-      {/* Real-time OHLC & Indicator Bar */}
+      {/* Real-time OHLC & Quotex Crowd Sentiment Bar */}
       <div className="flex items-center justify-between px-2.5 sm:px-3 py-1.5 text-xs border-b border-slate-800/50 bg-[#080b12] gap-2 overflow-x-auto no-scrollbar">
         {/* Dynamic OHLC Values */}
         <div className="flex items-center gap-2 sm:gap-3 font-mono-numbers text-[10px] sm:text-[11px] shrink-0">
@@ -376,37 +430,49 @@ export const TradingChart: React.FC = () => {
           ) : null}
         </div>
 
-        {/* Active Indicators Pills */}
-        <div className="flex items-center gap-1.5 text-[9px] sm:text-[10px] font-mono-numbers shrink-0">
-          {indicators.ema9 && (
-            <span className="text-[#38bdf8] flex items-center gap-1 bg-[#38bdf8]/10 px-1.5 py-0.5 rounded">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8]" />
-              EMA 9
-            </span>
-          )}
-          {indicators.ema21 && (
-            <span className="text-[#f59e0b] flex items-center gap-1 bg-[#f59e0b]/10 px-1.5 py-0.5 rounded">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]" />
-              EMA 21
-            </span>
-          )}
-          {indicators.sma200 && (
-            <span className="text-[#a855f7] flex items-center gap-1 bg-[#a855f7]/10 px-1.5 py-0.5 rounded hidden sm:flex">
-              <span className="w-1.5 h-1.5 rounded-full bg-[#a855f7]" />
-              SMA 200
-            </span>
-          )}
-          {indicators.rsi14 && (
-            <span className="text-emerald-400 flex items-center gap-1 bg-emerald-400/10 px-1.5 py-0.5 rounded">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
-              RSI 14
-            </span>
-          )}
+        {/* Quotex-Inspired Trader Sentiment Indicator Bar (Bull vs Bear) */}
+        <div className="flex items-center gap-2 text-[10px] font-mono shrink-0">
+          <span className="text-emerald-400 font-bold">{buyerSentiment}%</span>
+          <div className="w-16 sm:w-24 h-1.5 bg-rose-500/70 rounded-full overflow-hidden flex">
+            <div
+              className="h-full bg-emerald-400 transition-all duration-300"
+              style={{ width: `${buyerSentiment}%` }}
+            />
+          </div>
+          <span className="text-rose-400 font-bold">{sellerSentiment}%</span>
+
+          {/* Active Indicators Badges */}
+          <div className="hidden md:flex items-center gap-1.5 ml-2">
+            {indicators.ema9 && (
+              <span className="text-[#38bdf8] flex items-center gap-1 bg-[#38bdf8]/10 px-1.5 py-0.5 rounded text-[9px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#38bdf8]" />
+                EMA 9
+              </span>
+            )}
+            {indicators.ema21 && (
+              <span className="text-[#f59e0b] flex items-center gap-1 bg-[#f59e0b]/10 px-1.5 py-0.5 rounded text-[9px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#f59e0b]" />
+                EMA 21
+              </span>
+            )}
+            {indicators.rsi14 && (
+              <span className="text-emerald-400 flex items-center gap-1 bg-emerald-400/10 px-1.5 py-0.5 rounded text-[9px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400" />
+                RSI 14
+              </span>
+            )}
+            {indicators.macd && (
+              <span className="text-blue-400 flex items-center gap-1 bg-blue-400/10 px-1.5 py-0.5 rounded text-[9px]">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-400" />
+                MACD
+              </span>
+            )}
+          </div>
         </div>
       </div>
 
       {/* Lightweight Candlestick Chart Viewport */}
-      <div className="relative flex-1 w-full min-h-[360px]">
+      <div className="relative flex-1 w-full min-h-[320px]">
         <div ref={chartContainerRef} className="absolute inset-0 w-full h-full" />
       </div>
     </div>

@@ -29,12 +29,17 @@ export const LoginModal: React.FC = () => {
         {/* Header */}
         <div className="flex items-center justify-between px-5 py-4 border-b border-slate-800 bg-[#121722]">
           <div className="flex items-center gap-2.5">
-            <div className="w-8 h-8 rounded-lg bg-gradient-to-tr from-cyan-500 via-cyan-400 to-blue-600 flex items-center justify-center text-slate-950 font-black text-xs font-mono shadow-md">
-              GT
+            <div className="relative w-9 h-9 rounded-lg overflow-hidden border border-amber-500/40 bg-gradient-to-tr from-amber-600 via-amber-500 to-yellow-300 flex items-center justify-center shadow-md">
+              <img
+                src="/src/assets/images/coliseu_trading_emblem_1791394837853.jpg"
+                alt="Coliseu Trading"
+                referrerPolicy="no-referrer"
+                className="w-full h-full object-cover"
+              />
             </div>
             <div>
-              <h3 className="font-semibold text-white text-base font-display">Guro do Trading</h3>
-              <p className="text-xs text-slate-400">Terminal institucional e acesso demo</p>
+              <h3 className="font-semibold text-white text-base font-cinzel">Coliseu Trading</h3>
+              <p className="text-xs text-slate-400">Arena profissional e acesso institucional</p>
             </div>
           </div>
           <button
