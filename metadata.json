@@ -1,0 +1,6 @@
+{
+  "name": "MarketAI - Terminal Financeiro & Análise de Mercados",
+  "description": "Plataforma profissional de análise de mercados financeiros com gráficos interativos, indicadores técnicos, watchlist em tempo real, screeners e inteligência artificial preditiva.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
